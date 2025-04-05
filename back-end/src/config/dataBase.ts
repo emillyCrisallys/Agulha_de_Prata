@@ -1,23 +1,17 @@
-import { Sequelize } from 'sequelize'
+import { Sequelize } from "sequelize";
 
 const sequelize = new Sequelize(
-    'agulha',
+    'loja_vinil',
     'root',
     '',
     {
         host: 'localhost',
-        dialect: 'mysql'
+        dialect: 'mysql',
+        logging: false,
+        define: {
+            timestamps: false,
+            underscored: true,
+        },
     }
-);
-// Sincronizar os modelos
-(async () => {
-    try {
-        await sequelize.sync({ alter: true }); // Use { force: true } para recriar tabelas (apaga dados existentes)
-        console.log("Modelos sincronizados com o banco de dados.");
-    } catch (error) {
-        console.error("Erro ao sincronizar os modelos:", error);
-    }
-})();
-
-
-export default sequelize;
+)
+export default sequelize

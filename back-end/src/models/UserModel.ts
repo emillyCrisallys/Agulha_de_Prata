@@ -1,22 +1,9 @@
-import { Model, DataTypes } from "sequelize";
-import Order from "./OrderModel"; 
-import sequelize from "../config/database";
+import { Model, DataTypes } from 'sequelize';
 
-interface UserAttributes {
-    id?: number;
-    name: string;
-    email: string;
-    password: string;
-}
+class UserModel extends Model {}
+import sequelize from '../config/database';
 
-class User extends Model<UserAttributes> implements UserAttributes {
-    public id!: number;
-    public name!: string;
-    public email!: string;
-    public password!: string;
-}
-
-User.init(
+UserModel.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -32,18 +19,20 @@ User.init(
             allowNull: false,
             unique: true,
         },
+        document: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
         },
     },
     {
-        sequelize,
-        modelName: "User",
+        sequelize, 
+        modelName: 'UserModel',
+        tableName: 'users',
     }
-);
+)
 
-// Relacionamento
-User.hasMany(Order, { foreignKey: "userId", as: "orders" }); // Um usuário pode ter muitos pedidos
-
-export default User;
+export default UserModel;
