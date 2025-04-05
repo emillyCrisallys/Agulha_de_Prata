@@ -1,15 +1,13 @@
 import express from 'express'
 import sequelize from './config/database'
-import UserModel from './models/UserModel'
+import userRoutes from './routes/userRoutes'
 
 const app = express()
 const port = 3000
 
+app.use(userRoutes)
 
-app.get('/users', async (req, res) => {
-    const users = await UserModel.findAll()
-    res.send(users)
-})
+
 
 sequelize
     .sync({ alter: true })
