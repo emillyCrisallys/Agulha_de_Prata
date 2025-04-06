@@ -20,21 +20,27 @@ export const getUserById = async (
 export const createUser = async (
     req: Request,
     res: Response) => {
+
+        try{
+
+            const { name, email, document, password } = req.body  
+            // Check if the user already exists
+             if (!name?.trim() || !email?.trim() || !document?.trim() || !password?.trim()) {
+                return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+            }
+
+            const user = await UserModel.create({
+                name,
+                email,
+                document,
+                password
+            })
+            res.status(201).json(user)
     
-        const { name, email, document, password } = req.body
+        } catch(error){
+            res.status(500).json('Erro interno no servidor ' + error )
 
-        // Check if the user already exists
-        if (!name?.trim() || !email?.trim() || !document?.trim() || !password?.trim()) {
-            return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
         }
-        
-        const user = await UserModel.create({
-            name,
-            email,
-            document,
-            password
-        })
-
-        res.status(201).json(user)
-
-}
+    
+              
+    } 
