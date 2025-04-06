@@ -1,7 +1,15 @@
 import { Model, DataTypes } from 'sequelize';
-
-class UserModel extends Model {}
 import sequelize from '../config/database';
+
+class UserModel extends Model {
+    id: number | undefined;
+    name: string | undefined;
+    email: string | undefined;
+    document: string | undefined;
+    password: string | undefined;
+ 
+}
+
 
 UserModel.init(
     {

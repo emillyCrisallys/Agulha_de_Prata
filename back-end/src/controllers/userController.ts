@@ -6,6 +6,7 @@ export const getAll = async (req: Request, res: Response) => {
     res.send(users) 
 }
 
+
 export const getUserById = async (
     req: Request<{ id: number }>,
     res: Response) => {
@@ -13,5 +14,22 @@ export const getUserById = async (
         const user = await UserModel.findByPk(req.params.id)
 
         return res.json(user);
+
+}
+
+export const createUser = async (
+    req: Request,
+    res: Response) => {
+    
+        const { name, email, document, password } = req.body
+
+        const user = await UserModel.create({
+            name,
+            email,
+            document,
+            password
+        })
+
+        res.status(201).json(user)
 
 }
