@@ -43,4 +43,46 @@ export const createUser = async (
         }
     
               
-    } 
+} 
+
+export const updateUser = async (
+    req: Request <{ id: string }>,
+    res: Response) => {
+
+        try{
+
+            const { name, email, document, password } = req.body  
+            
+
+            // Check if the user already exists
+            if (!name?.trim() || !email?.trim() || !document?.trim() || !password?.trim()) {
+                return res.status(400)
+                    .json({ error: 'Todos os campos são obrigatórios.' });
+            }
+
+            const user  = await UserModel.findByPk(req.params.id)
+
+            if (!user) {
+                return res.status(404)
+                    .json({ error: 'Usuário não encontrado.' });
+            }
+
+            
+            user.name = name
+            user.email = email
+            user.document = document
+            user.password = password
+
+            await user.save()
+
+            res.status(201).json(user)
+    
+        } catch(error){
+            res.status(500).json('Erro interno no servidor ' + error )
+
+        }
+    
+              
+} 
+
+   
