@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAll, getInventoryByProductId,updateInventory,createInventory } from '../controllers/inventoryController'
+import {getAll, getInventoryByProductId,updateInventory,createInventory,deleteInventory } from '../controllers/inventoryController'
 
 
 
@@ -10,7 +10,7 @@ router.get('/inventory',getAll)
 router.get('/inventory/:id',getInventoryByProductId)
 router.put('/inventory/:id',updateInventory) 
 router.post('/inventory',createInventory)   
-
+router.delete('/inventory/:id',deleteInventory)
 
 
 export default router;
