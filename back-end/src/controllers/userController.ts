@@ -1,6 +1,36 @@
 import { Request, Response } from 'express'
 import UserModel from '../models/UserModel'
 
+
+
+const isValidCPF = (cpf: string): boolean => {
+    cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+    let sum = 0, remainder;
+
+    for (let i = 1; i <= 9; i++) {
+        sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    }
+    remainder = (sum * 10) % 11;
+    if (remainder === 10 || remainder === 11) remainder = 0;
+    if (remainder !== parseInt(cpf.substring(9, 10))) return false;
+
+    sum = 0;
+    for (let i = 1; i <= 10; i++) {
+        sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    }
+    remainder = (sum * 10) % 11;
+    if (remainder === 10 || remainder === 11) remainder = 0;
+
+    return remainder === parseInt(cpf.substring(10, 11));
+};
+
+const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
 export const getAll = async (req: Request, res: Response) => {
     const users = await UserModel.findAll()
     res.send(users) 
@@ -24,10 +54,20 @@ export const createUser = async (
         try{
 
             const { name, email, document, password } = req.body  
-            
+
             // Check if the user already exists
              if (!name?.trim() || !email?.trim() || !document?.trim() || !password?.trim()) {
                 return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+            }
+
+            // Validação do e-mail
+            if (!isValidEmail(email)) {
+                return res.status(400).json({ error: 'E-mail inválido.' });
+            }
+
+            // Validação do CPF
+            if (!isValidCPF(document)) {
+                return res.status(400).json({ error: 'CPF inválido.' });
             }
 
             // Verifica se o CPF já está cadastrado
@@ -67,6 +107,17 @@ export const updateUser = async (
                 return res.status(400)
                     .json({ error: 'Todos os campos são obrigatórios.' });
             }
+
+            // Validação do e-mail
+            if (!isValidEmail(email)) {
+                return res.status(400).json({ error: 'E-mail inválido.' });
+            }
+
+            // Validação do CPF
+            if (!isValidCPF(document)) {
+                return res.status(400).json({ error: 'CPF inválido.' });
+            }
+
 
             const user  = await UserModel.findByPk(req.params.id)
 
