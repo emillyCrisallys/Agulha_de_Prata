@@ -70,8 +70,9 @@ export const updateUser = async (
             
             user.name = name
             user.email = email
-            user.document = document
             user.password = password
+            
+            
 
             await user.save()
 

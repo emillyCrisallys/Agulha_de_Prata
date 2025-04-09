@@ -52,4 +52,11 @@ UserModel.beforeCreate(async(user: UserModel) => {
 
 });
 
+UserModel.beforeUpdate(async(user: UserModel) => {
+
+    if (user.changed('password')) {
+        await user.hashPassword()
+    }
+})
+
 export default UserModel;
