@@ -18,6 +18,12 @@ export const getCartByUserId = async (req: Request<{ userId: number }>, res: Res
 
 export const addToCart = async (req: Request, res: Response) => {
     try {
+        // Verifica se o usuário está logado
+        const loggedUser = req.body.user;
+        if (!loggedUser) {
+            return res.status(401).json({ error: "Acesso negado. Usuário não autenticado." });
+        }
+
         const { userId, productId, quantity } = req.body;
 
         if (!userId || !productId || quantity === undefined) {
