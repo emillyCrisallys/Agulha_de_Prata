@@ -8,7 +8,7 @@ export const getAll = async (req: Request, res: Response) => {
 
 
 export const getUserById = async (
-    req: Request<{ id: number }>,
+    req: Request<{ id: string }>,
     res: Response) => {
    
         const user = await UserModel.findByPk(req.params.id)
@@ -87,7 +87,7 @@ export const updateUser = async (
 } 
 
 export const destroyUserById = async (
-    req: Request<{ id: number }>,
+    req: Request<{ id: string }>,
     res: Response) => {
 
         try{
