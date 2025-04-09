@@ -13,6 +13,7 @@ export const getProductById = async (req: Request<{ id: number }>, res: Response
 
 export const createProduct = async (req: Request, res: Response) => {
     try {
+       
         const { name, description, price } = req.body;
         if (!name?.trim() || !description?.trim() || !price) {
             return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
@@ -26,6 +27,8 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const updateProduct = async (req: Request<{ id: string }>, res: Response) => {
     try {
+
+
         const { name, description, price } = req.body;
         if (!name?.trim() || !description?.trim() || !price) {
             return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
@@ -47,6 +50,8 @@ export const updateProduct = async (req: Request<{ id: string }>, res: Response)
 
 export const destroyProductById = async (req: Request<{ id: number }>, res: Response) => {
     try {
+
+      
         const product = await ProductModel.findByPk(req.params.id);
         if (!product) return res.status(404).json({ error: 'Produto não encontrado.' });
 

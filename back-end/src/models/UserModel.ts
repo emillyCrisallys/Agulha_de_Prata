@@ -39,6 +39,7 @@ UserModel.init(
         document: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true, 
         },
         password: {
             type: DataTypes.STRING,
@@ -58,11 +59,20 @@ UserModel.init(
 )
 
 UserModel.beforeCreate(async(user: UserModel) => {
+
+    if (user.document) {
+        user.document = user.document.replace(/\D/g, ''); // Remove tudo que não for número
+    }
+
     await user.hashPassword()
 
 });
 
 UserModel.beforeUpdate(async(user: UserModel) => {
+
+    if (user.changed('document') && user.document) {
+        user.document = user.document.replace(/\D/g, ''); // Remove tudo que não for número
+    }
 
     if (user.changed('password')) {
         await user.hashPassword()

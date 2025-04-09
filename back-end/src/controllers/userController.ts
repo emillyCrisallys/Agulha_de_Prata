@@ -24,10 +24,18 @@ export const createUser = async (
         try{
 
             const { name, email, document, password } = req.body  
+            
             // Check if the user already exists
              if (!name?.trim() || !email?.trim() || !document?.trim() || !password?.trim()) {
                 return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
             }
+
+            // Verifica se o CPF já está cadastrado
+            const existingUser = await UserModel.findOne({ where: { document } });
+            
+                if (existingUser) {
+                    return res.status(400).json({ error: 'CPF já cadastrado.' });
+                }
 
             const user = await UserModel.create({
                 name,
