@@ -52,7 +52,7 @@ export const updateUser = async (
         try{
 
             const { name, email, document, password } = req.body  
-            
+            const loggedUser = req.body.user
 
             // Check if the user already exists
             if (!name?.trim() || !email?.trim() || !document?.trim() || !password?.trim()) {
@@ -70,7 +70,9 @@ export const updateUser = async (
             
             user.name = name
             user.email = email
+            user.document = document
             user.password = password
+            user.updatedBy = loggedUser.user.id
             
             
 
