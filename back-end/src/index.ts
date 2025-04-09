@@ -4,6 +4,7 @@ import userRoutes from './routes/userRoutes'
 import productRoutes from './routes/productRoutes'
 import inventoryRoutes from './routes/inventoryRoutes'
 import cartRoutes from './routes/cartRoutes';
+import loginRoutes from './routes/loginRoutes'
 import './models/associations';
 
 
@@ -15,7 +16,7 @@ app.use(userRoutes)
 app.use(productRoutes)
 app.use(inventoryRoutes)
 app.use(cartRoutes)
-
+app.use(loginRoutes)
 
 
 
