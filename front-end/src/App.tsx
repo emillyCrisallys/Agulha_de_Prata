@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import Home from './pages/Home';
+import RegisterForm  from './pages/Cadastro'
+//import About from './pages/About'; // Importe o componente da página Sobre
+//import Contact from './pages/Contact.tsx'; // Importe o componente da página Contato
+//import Cart from './pages/Cart';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-export default App
+          body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+        `}
+      </style>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/Cadastro" element={<RegisterForm />} />
+          <Route path="/Home" element={<Home />} />
+         {/* <Route path="/about" element={<About />} /> {/* Rota da página Sobre */}
+       {/*} <Route path="/contact" element={<Contact />} /> {/* Rota da página Contato */}
+        {/*<Route path="/cart" element={<Cart />} /> {/* Rota do carrinho */}
+          {/* Adicione outras rotas aqui */}
+        </Routes>
+      </Router>
+    </>
+  );
+};
+
+export default App;

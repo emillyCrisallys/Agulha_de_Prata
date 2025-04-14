@@ -1,0 +1,98 @@
+/* src/styles/HomeLay.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Inclui padding e borda nas dimensões totais */
+}
+
+body {
+  font-family: Arial, sans-serif;
+
+  background-color: #434343;
+  background-image: linear-gradient(90deg, #000000 0%, #434343 100%);
+  color: #ffffff; /* Texto branco */
+}
+main {
+  padding-top: 590px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background-color: #222; /* Fundo da navbar */
+  position: fixed; /* Fixa a navbar no topo */
+  width: 100%; /* Largura total */
+  top: 0; /* Fixa no topo */
+  left: 0; /* Alinha à esquerda */
+  z-index: 1000; /* Garante que a navbar fique acima de outros elementos */
+}
+
+.logo img {
+  height: 80px; /* Altura da logo */
+}
+
+.nav-links {
+  display: flex; /* Exibe os links em linha */
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 30px;
+  text-align: left; /* Alinha o texto à esquerda */
+}
+
+.nav-links a:hover {
+  text-decoration: underline; /* Efeito de hover */
+}
+
+h1 {
+  text-align: center;
+  margin: 80px 0 20px; /* Margem superior para evitar sobreposição com a navbar */
+}
+
+.product-container {
+  display: flex; /* Usar flexbox para dispor os produtos na horizontal */
+  flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
+  justify-content: space-between; /* Distribui os itens com espaço entre eles */
+  padding: 20px;
+  margin-top: 80px; /* Adiciona espaço para a navbar fixa */
+}
+
+.product-card {
+  background-color: #333; /* Fundo dos cartões de produtos */
+  border: 1px solid #444; /* Borda dos cartões */
+  border-radius: 8px; /* Bordas arredondadas */
+  margin: 10px; /* Margem entre os cartões */
+  padding: 15px;
+  width: calc(
+    25% - 20px
+  ); /* Largura dos cartões: 25% da largura do contêiner menos a margem */
+  text-align: center; /* Centraliza o texto */
+}
+.product-card img {
+  width: 100%; /* Imagem ocupa toda a largura do cartão */
+  border-radius: 5px; /* Bordas arredondadas para a imagem */
+}
+
+.cart-icon {
+  width: 30px; /* Ajuste a largura da imagem do carrinho conforme necessário */
+  height: auto; /* Mantém a proporção da imagem */
+  margin-left: 5px; /* Espaço à esquerda da imagem do carrinho */
+}
+
+button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #28a745; /* Cor do botão */
+  color: #fff; /* Texto do botão */
+  cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+}
+
+button:hover {
+  background-color: #218838; /* Cor do botão ao passar o mouse */
+}
