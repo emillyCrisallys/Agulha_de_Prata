@@ -1,0 +1,31 @@
+
+.cart-item {
+  display: flex; /* Flexbox for item layout */
+  justify-content: space-between; /* Space between item details and remove button */
+  align-items: center; /* Center items vertically */
+  padding: 10px;
+  border-bottom: 1px solid #555; /* Divider between items */
+}
+
+.cart-item:last-child {
+  border-bottom: none; /* Remove border for the last item */
+}
+
+.remove-button {
+  background-color: #cc8105; /* Background color for remove button */
+  color: #fff; /* Text color for remove button */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.remove-button:hover {
+  background-color: #efb810; /* Change color on hover */
+}
+
+.total {
+  margin-top: 20px; /* Space above total */
+  font-size: 1.2em; /* Larger font for total */
+  text-align: right; /* Align total to the right */
+}

@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
   background-color: #434343;
   background-image: linear-gradient(90deg, #000000 0%, #434343 100%);
@@ -88,11 +88,12 @@ button {
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: #28a745; /* Cor do botão */
+  background-color: #cc8105; /* Cor do botão */
   color: #fff; /* Texto do botão */
   cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+  margin: 10px; /* Largura máxima do botão */
 }
 
 button:hover {
-  background-color: #218838; /* Cor do botão ao passar o mouse */
+  background-color: #efb810; /* Cor do botão ao passar o mouse */
 }
