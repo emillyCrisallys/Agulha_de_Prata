@@ -1,31 +1,61 @@
+.cart {
+  padding: 20px;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+}
 
 .cart-item {
-  display: flex; /* Flexbox for item layout */
-  justify-content: space-between; /* Space between item details and remove button */
-  align-items: center; /* Center items vertically */
-  padding: 10px;
-  border-bottom: 1px solid #555; /* Divider between items */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-.cart-item:last-child {
-  border-bottom: none; /* Remove border for the last item */
+.cart-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
 }
 
-.remove-button {
-  background-color: #cc8105; /* Background color for remove button */
-  color: #fff; /* Text color for remove button */
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer; /* Pointer cursor on hover */
+.cart-item div {
+  flex: 1;
 }
 
-.remove-button:hover {
-  background-color: #efb810; /* Change color on hover */
+.cart-item h3 {
+  margin: 0;
+  color: #333;
+  text-decoration: none;
+}
+
+.cart-item h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cart-item h3 a:hover {
+  text-decoration: underline;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+}
+
+.quantity button {
+  margin: 0 10px;
 }
 
 .total {
-  margin-top: 20px; /* Space above total */
-  font-size: 1.2em; /* Larger font for total */
-  text-align: right; /* Align total to the right */
+  margin-top: 20px;
+  text-align: right;
+  font-weight: bold;
+}
+
+button {
+  padding: 10px;
+  cursor: pointer;
 }

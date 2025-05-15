@@ -3,18 +3,17 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Inclui padding e borda nas dimensões totais */
+  box-sizing: border-box; 
 }
 
 body {
   font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
   background-color: #434343;
   background-image: linear-gradient(90deg, #000000 0%, #434343 100%);
   color: #ffffff; /* Texto branco */
 }
 main {
-  padding-top: 590px;
+  padding-top: 100%;
 }
 
 nav {
@@ -55,10 +54,10 @@ h1 {
 }
 
 .product-container {
-  display: flex; /* Usar flexbox para dispor os produtos na horizontal */
+  display: flex; 
   flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
   justify-content: space-between; /* Distribui os itens com espaço entre eles */
-  padding: 20px;
+  padding: 25px;
   margin-top: 80px; /* Adiciona espaço para a navbar fixa */
 }
 

@@ -15,25 +15,55 @@ const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const handleAddToCart = async (product: Product) => {
+  /* const handleAddToCart = async (product: Product) => {
     try {
       const storedUser = localStorage.getItem("userId");
 
       if (!storedUser) {
-        console.log(storedUser);
         alert("Você precisa estar logado para adicionar produtos ao carrinho.");
         return;
       }
 
-      // Fazendo a requisição POST para adicionar o produto ao carrinho
-      const response = await api.post("/cart", {
-        userId: storedUser,
+      // Verificando se o carrinho já existe no localStorage
+      const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const productIndex = storedCart.findIndex((item: { product: Product; quantity: number }) => item.product.id === product.id);
+
+      if (productIndex >= 0) {
+        // Se o produto já estiver no carrinho, incrementar a quantidade
+        storedCart[productIndex].quantity += 1;
+      } else {
+        // Caso o produto não esteja no carrinho, adicionar
+        storedCart.push({ product, quantity: 1 });
+      }
+
+      // Atualizar carrinho no localStorage
+      localStorage.setItem("cart", JSON.stringify(storedCart));
+      alert("Produto adicionado ao carrinho com sucesso!");
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao adicionar produto ao carrinho. Tente novamente mais tarde.");
+    }
+  };*/
+
+  const handleAddToCart = async (product: Product) => {
+    try {
+      const userId = localStorage.getItem("userId");
+      console.log(userId);
+
+      if (!userId) {
+        alert("Você precisa estar logado para adicionar produtos ao carrinho.");
+        return;
+      }
+
+      await api.post("/cart", {
+        userId: userId,
         productId: product.id,
         quantity: 1,
       });
-      alert(`Produto adicionado ao carrinho com sucesso! ${response.data}`);
+
+      alert("Produto adicionado ao carrinho com sucesso!");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       alert(
         "Erro ao adicionar produto ao carrinho. Tente novamente mais tarde."
       );
@@ -47,10 +77,7 @@ const Home: React.FC = () => {
         if (Array.isArray(response.data)) {
           setProducts(response.data);
         } else {
-          console.error(
-            "Erro: Dados recebidos não são uma lista de produtos.",
-            response.data
-          );
+          setError("Erro ao buscar produtos. Tente novamente mais tarde.");
           setProducts([]);
         }
       } catch (err) {
