@@ -18,7 +18,7 @@ export const createProduct = async (req: Request, res: Response) => {
         if (!name?.trim() || !description?.trim() || !price) {
             return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
         }
-        const product = await ProductModel.create({ name, description, price });
+        const product = await ProductModel.create({ name, description, price, Image });
         res.status(201).json(product);
     } catch (error) {
         res.status(500).json('Erro interno no servidor: ' + error);
@@ -29,7 +29,7 @@ export const updateProduct = async (req: Request<{ id: string }>, res: Response)
     try {
 
 
-        const { name, description, price } = req.body;
+        const { name, description, price, image } = req.body;
         if (!name?.trim() || !description?.trim() || !price) {
             return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
         }
@@ -40,6 +40,7 @@ export const updateProduct = async (req: Request<{ id: string }>, res: Response)
         product.name = name;
         product.description = description;
         product.price = price;
+        product.image = image || product.image;
 
         await product.save();
         res.status(200).json(product);

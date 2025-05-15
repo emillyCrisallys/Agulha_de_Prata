@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/dataBase";
 
 
 
@@ -8,6 +8,7 @@ class ProductModel extends Model {
     name: string | undefined;
     description: string | undefined;
     price: number | undefined;
+    image: string | undefined;
 }
 
 ProductModel.init(
@@ -28,6 +29,10 @@ ProductModel.init(
         price: {
             type: DataTypes.FLOAT,
             allowNull: false
+        },
+        image: {
+            type: DataTypes.STRING, 
+            allowNull: true 
         }
     },
     {

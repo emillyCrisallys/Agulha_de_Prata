@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('/cart',getAll)
 router.get('/cart/:id',getCartByUserId)
 router.post('/cart',authMiddleware,addToCart)
+router.post('/cart',authMiddleware,addToCart)
 router.put('/cart/:id',updateCartItem)
 router.delete('/cart/:id',removeFromCart)
 
