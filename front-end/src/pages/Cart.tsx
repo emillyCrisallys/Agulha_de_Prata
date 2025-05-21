@@ -5,6 +5,7 @@ import "../styles/Cart.css";
 
 interface Product {
   id: number;
+  userId: number;
   name: string;
   price: number;
   image: string;
@@ -18,24 +19,24 @@ const Cart: React.FC = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const userId = localStorage.getItem("userId");
+        const { data } = await api.get(`/cart`); // Recebe todos os dados do backend
 
-        if (!userId) {
-          setError("Você precisa estar logado para ver o carrinho.");
+        // Obtém o userId do localStorage
+        const idLocalStorage = localStorage.getItem("userId");
+
+        if (!idLocalStorage) {
+          setError("Você precisa estar logado para acessar o carrinho.");
           return;
         }
-        const response = await api.get(`/cart/${userId}`);
-        if (Array.isArray(response.data)) {
-          setCart(response.data);
-        } else {
-          console.error(
-            "Erro: Dados recebidos não são uma lista de produtos.",
-            response.data
-          );
-          setCart([]);
-        }
-      } catch (err) {
-        console.error("Erro ao buscar produtos do carrinho:", err);
+
+        // Filtra os produtos do carrinho com base no userId
+        const filteredCart = data.filter(
+          (product: Product) => product.userId === parseInt(idLocalStorage, 10)
+        );
+
+        setCart(filteredCart); // Atualiza o estado com os produtos filtrados
+      } catch (error) {
+        console.error("Erro ao buscar produtos do carrinho:", error);
         setError(
           "Erro ao buscar produtos do carrinho. Tente novamente mais tarde."
         );
@@ -102,7 +103,11 @@ const Cart: React.FC = () => {
       ) : (
         <div className="cart-items">
           {cart.map((product) => (
-            <div key={product.id} className="cart-item">
+            <div
+              key={product.id}
+              id={String(product.userId)}
+              className="cart-item"
+            >
               <img src={product.image} alt={product.name} />
               <div>
                 <Link to={`/product/${product.id}`}>
