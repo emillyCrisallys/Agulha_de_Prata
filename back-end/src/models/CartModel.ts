@@ -1,47 +1,41 @@
-import { DataTypes, Model } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/dataBase";
 import ProductModel from "./ProductModel";
-import UserModel from "./UserModel";
 
 class CartModel extends Model {
-    id: number | undefined;
-    userId: number | undefined;
-    productId: number | undefined;
-    quantity: number | undefined;
+  public id!: number;
+  public userId!: number;
+  public productId!: number;
+  public quantity!: number;
 }
 
 CartModel.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        userId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        productId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        quantity: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 1
-        }
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    {
-        sequelize,
-        modelName: "CartModel",
-        tableName: "cart"
-    }
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    productId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    modelName: "Cart",
+  }
 );
 
-// Relacionamento com UserModel (um usuário pode ter vários itens no carrinho)
-CartModel.belongsTo(UserModel, {
-    foreignKey: "userId",
-    as: "user"
-});
+// Relacionamento com ProductModel
+CartModel.belongsTo(ProductModel, { foreignKey: "productId", as: "Product" });
 
 export default CartModel;

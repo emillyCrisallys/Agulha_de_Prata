@@ -9,24 +9,22 @@ export const getAll = async (req: Request, res: Response) => {
   res.send(users);
 };
 
-export const getCartByUserId = async (
-  req: Request<{ userId: number }>,
+export const getCartById = async (
+  req: Request<{ userId: string }>,
   res: Response
 ) => {
+  const user = await CartModel.findByPk(req.params.userId);
+  console.log(user);
   try {
-    const { userId } = req.params;
-
-    // Filtra os itens do carrinho pelo userId
-    const cartItems = await CartModel.findAll({
-      where: { userId },
-      include: [ProductModel],
-    });
-
-    res.status(200).json(cartItems);
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json(user);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Erro ao buscar carrinho do usuário", details: error });
+    console.error(user);
+    console.error("Error in getCartById:", error);
+    res.status(500).json("Erro interno no servidor " + error);
   }
 };
 
