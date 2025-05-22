@@ -12,6 +12,12 @@ interface Product {
   quantity: number;
 }
 
+interface CartReturn {
+  id: number;
+  userId: number;
+  ProductModel: Product;
+}
+
 const Cart: React.FC = () => {
   const [cart, setCart] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -19,10 +25,11 @@ const Cart: React.FC = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const { data } = await api.get(`/cart`); // Recebe todos os dados do backend
+        const idLocalStorage = localStorage.getItem("userId");
+
+        const { data } = await api.get(`/cart/${idLocalStorage}`); // Recebe todos os dados do backend
 
         // Obtém o userId do localStorage
-        const idLocalStorage = localStorage.getItem("userId");
 
         if (!idLocalStorage) {
           setError("Você precisa estar logado para acessar o carrinho.");
@@ -30,11 +37,14 @@ const Cart: React.FC = () => {
         }
 
         // Filtra os produtos do carrinho com base no userId
-        const filteredCart = data.filter(
-          (product: Product) => product.userId === parseInt(idLocalStorage, 10)
-        );
+        // const filteredCart = data.filter(async (product: Product) => {
+        //   if (product.userId === parseInt(idLocalStorage, 10)) {
+        //     return await api.get(`/product/${product.userId}`);
+        //   }
+        // });
 
-        setCart(filteredCart); // Atualiza o estado com os produtos filtrados
+        setCart(data.map((product: CartReturn) => product.ProductModel)); // Atualiza o estado com os produtos filtrados
+        console.log("retorno da busca do cart by userid", data);
       } catch (error) {
         console.error("Erro ao buscar produtos do carrinho:", error);
         setError(
