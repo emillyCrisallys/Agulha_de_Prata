@@ -15,6 +15,7 @@ interface Product {
 interface CartReturn {
   id: number;
   userId: number;
+  quantity: number;
   ProductModel: Product;
 }
 
@@ -26,25 +27,26 @@ const Cart: React.FC = () => {
     const fetchCart = async () => {
       try {
         const idLocalStorage = localStorage.getItem("userId");
-
-        const { data } = await api.get(`/cart/${idLocalStorage}`); // Recebe todos os dados do backend
-
-        // Obtém o userId do localStorage
-
+  
+        const { data } = await api.get(`/cart/${idLocalStorage}`);
+        console.log("Dados retornados pelo backend:", data);
+  
         if (!idLocalStorage) {
           setError("Você precisa estar logado para acessar o carrinho.");
           return;
         }
-
-        // Filtra os produtos do carrinho com base no userId
-        // const filteredCart = data.filter(async (product: Product) => {
-        //   if (product.userId === parseInt(idLocalStorage, 10)) {
-        //     return await api.get(`/product/${product.userId}`);
-        //   }
-        // });
-
-        setCart(data.map((product: CartReturn) => product.ProductModel)); // Atualiza o estado com os produtos filtrados
-        console.log("retorno da busca do cart by userid", data);
+  
+        // Mapeia os dados para garantir que quantity seja inicializado
+        const mappedCart = data.map((item: CartReturn) => ({
+          id: item.id,
+          userId: item.userId,
+          name: item.ProductModel.name,
+          price: item.ProductModel.price,
+          image: item.ProductModel.image,
+          quantity: item.quantity || 0, 
+        }));
+  
+        setCart(mappedCart);
       } catch (error) {
         console.error("Erro ao buscar produtos do carrinho:", error);
         setError(
@@ -52,7 +54,7 @@ const Cart: React.FC = () => {
         );
       }
     };
-
+  
     fetchCart();
   }, []);
 
@@ -66,43 +68,36 @@ const Cart: React.FC = () => {
     }
   };
 
-  const handleIncreaseQuantity = async (id: number) => {
-    try {
-      await api.put(`/cart/increase/${id}`);
-      setCart((prevCart) =>
-        prevCart.map((product) =>
-          product.id === id
-            ? { ...product, quantity: product.quantity + 1 }
-            : product
-        )
-      );
-    } catch (err) {
-      console.error("Erro ao aumentar a quantidade do produto:", err);
-      alert("Erro ao aumentar a quantidade. Tente novamente mais tarde.");
-    }
+  const incrementQuantity = (id: number) => {
+    setCart((prevCart) =>
+      prevCart.map((product) =>
+        product.id === id
+          ? { ...product, quantity: product.quantity + 1 }
+          : product
+      )
+    );
   };
 
-  const handleDecreaseQuantity = async (id: number) => {
-    try {
-      await api.put(`/cart/decrease/${id}`);
+  const decrementQuantity = (id: number) => {
       setCart((prevCart) =>
-        prevCart.map((product) =>
-          product.id === id && product.quantity > 1
-            ? { ...product, quantity: product.quantity - 1 }
-            : product
-        )
+          prevCart.map((product) =>
+              product.id === id && product.quantity > 1
+                  ? { ...product, quantity: product.quantity - 1 }
+                  : product
+          )
       );
-    } catch (err) {
-      console.error("Erro ao diminuir a quantidade do produto:", err);
-      alert("Erro ao diminuir a quantidade. Tente novamente mais tarde.");
-    }
   };
+
 
   const getCartTotal = () => {
     return cart
-      .reduce((total, product) => total + product.price * product.quantity, 0)
+      .reduce(
+        (total, product) => total + Number(product.price) * product.quantity,
+        0
+      )
       .toFixed(2);
   };
+  console.log("Dados do carrinho:", cart);
 
   return (
     <div className="cart">
@@ -123,13 +118,13 @@ const Cart: React.FC = () => {
                 <Link to={`/product/${product.id}`}>
                   <h3>{product.name}</h3>
                 </Link>
-                <p>R${product.price}</p>
+                <p>R${Number(product.price).toFixed(2)}</p>
                 <p>Quantidade: {product.quantity}</p>
                 <div className="quantity">
-                  <button onClick={() => handleIncreaseQuantity(product.id)}>
+                  <button onClick={() => incrementQuantity(product.id)}>
                     +
                   </button>
-                  <button onClick={() => handleDecreaseQuantity(product.id)}>
+                  <button onClick={() => decrementQuantity(product.id)}>
                     -
                   </button>
                 </div>
