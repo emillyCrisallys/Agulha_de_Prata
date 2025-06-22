@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import api from "../utils/api";
 import "../styles/Cart.css";
 
@@ -27,15 +28,15 @@ const Cart: React.FC = () => {
     const fetchCart = async () => {
       try {
         const idLocalStorage = localStorage.getItem("userId");
-  
+
         const { data } = await api.get(`/cart/${idLocalStorage}`);
         console.log("Dados retornados pelo backend:", data);
-  
+
         if (!idLocalStorage) {
           setError("Você precisa estar logado para acessar o carrinho.");
           return;
         }
-  
+
         // Mapeia os dados para garantir que quantity seja inicializado
         const mappedCart = data.map((item: CartReturn) => ({
           id: item.id,
@@ -43,9 +44,9 @@ const Cart: React.FC = () => {
           name: item.ProductModel.name,
           price: item.ProductModel.price,
           image: item.ProductModel.image,
-          quantity: item.quantity || 0, 
+          quantity: item.quantity || 0,
         }));
-  
+
         setCart(mappedCart);
       } catch (error) {
         console.error("Erro ao buscar produtos do carrinho:", error);
@@ -54,7 +55,7 @@ const Cart: React.FC = () => {
         );
       }
     };
-  
+
     fetchCart();
   }, []);
 
@@ -79,15 +80,14 @@ const Cart: React.FC = () => {
   };
 
   const decrementQuantity = (id: number) => {
-      setCart((prevCart) =>
-          prevCart.map((product) =>
-              product.id === id && product.quantity > 1
-                  ? { ...product, quantity: product.quantity - 1 }
-                  : product
-          )
-      );
+    setCart((prevCart) =>
+      prevCart.map((product) =>
+        product.id === id && product.quantity > 1
+          ? { ...product, quantity: product.quantity - 1 }
+          : product
+      )
+    );
   };
-
 
   const getCartTotal = () => {
     return cart
@@ -101,6 +101,11 @@ const Cart: React.FC = () => {
 
   return (
     <div className="cart">
+      {/* Seta para voltar */}
+      <Link to="/home" className="back-home">
+        <FaArrowLeft /> Voltar para Home{" "}
+      </Link>
+
       <h1>Carrinho de Compras</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {cart.length === 0 ? (
@@ -118,19 +123,30 @@ const Cart: React.FC = () => {
                 <Link to={`/product/${product.id}`}>
                   <h3>{product.name}</h3>
                 </Link>
-                <p>R${Number(product.price).toFixed(2)}</p>
-                <p>Quantidade: {product.quantity}</p>
                 <div className="quantity">
-                  <button onClick={() => incrementQuantity(product.id)}>
+                  <button
+                    className="quantity-button"
+                    onClick={() => incrementQuantity(product.id)}
+                  >
                     +
                   </button>
-                  <button onClick={() => decrementQuantity(product.id)}>
+                  <button
+                    className="quantity-button"
+                    onClick={() => decrementQuantity(product.id)}
+                  >
                     -
                   </button>
+
+                  <button
+                    className="remove-button"
+                    onClick={() => handleRemoveFromCart(product.id)}
+                  >
+                    Remover
+                  </button>
                 </div>
-                <button onClick={() => handleRemoveFromCart(product.id)}>
-                  Remover
-                </button>
+
+                <p> {product.quantity}.Unid</p>
+                <p>R${Number(product.price).toFixed(2)}</p>
               </div>
             </div>
           ))}

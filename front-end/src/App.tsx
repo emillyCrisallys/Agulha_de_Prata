@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 import RegisterForm from "./pages/Cadastro";
 import Cart from "./pages/Cart";
+import UserPerfil from "./pages/UserPerfil";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
         <Route path="/Login" element={<LoginPage />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/Cart" element={<Cart />} />
+        <Route path="/UserPerfil" element={<UserPerfil />} />
       </Routes>
     </Router>
   );

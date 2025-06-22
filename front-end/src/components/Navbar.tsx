@@ -8,8 +8,8 @@ const Navbar: React.FC = () => {
       <div className="logo">Logo</div>
       <div>
         <Link to="/" style={{ marginRight: '10px' }}>Home</Link>
-        <Link to="/about" style={{ marginRight: '10px' }}>Sobre</Link>
         <Link to="/contact" style={{ marginRight: '10px' }}>Contato</Link>
+        <Link to="/UserPerfil" style={{ marginRight: '10px' }}>Perfil</Link>
         <Link to="/cart">Carrinho</Link>
       </div>
     </nav>
