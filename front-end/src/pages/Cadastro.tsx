@@ -16,7 +16,12 @@ const RegisterForm: React.FC = () => {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return regex.test(email);
     };
-  
+
+    const validateCPF = (cpf: string) => {
+      const cleaned = cpf.replace(/\D/g, "");
+      return cleaned.length === 11;
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       setError('');
@@ -31,7 +36,20 @@ const RegisterForm: React.FC = () => {
         setError('E-mail inválido.');
         return;
       }
-  
+
+      if (!validateCPF(document)) {
+        setError('CPF inválido.');
+        return;
+      }
+
+       const senhaValida = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+      if (!senhaValida.test(password)) {
+      setError(
+        "A senha deve conter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um caractere especial."
+      );
+      return;
+    }
+
       try {
         const response = await api.post('/users', { name, email, document, password });
         console.log('Usuário cadastrado:', response.data); 

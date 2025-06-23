@@ -70,25 +70,39 @@ const Cart: React.FC = () => {
     }
   };
 
-  const incrementQuantity = (id: number) => {
-    setCart((prevCart) =>
-      prevCart.map((product) =>
-        product.id === id
-          ? { ...product, quantity: product.quantity + 1 }
-          : product
-      )
-    );
-  };
+const incrementQuantity = async (id: number) => {
+  const product = cart.find((p) => p.id === id);
+  if (!product) return;
+  const newQuantity = product.quantity + 1;
 
-  const decrementQuantity = (id: number) => {
+  try {
+    await api.put(`/cart/${id}`, { quantity: newQuantity });
     setCart((prevCart) =>
-      prevCart.map((product) =>
-        product.id === id && product.quantity > 1
-          ? { ...product, quantity: product.quantity - 1 }
-          : product
+      prevCart.map((p) =>
+        p.id === id ? { ...p, quantity: newQuantity } : p
       )
     );
-  };
+  } catch {
+    alert("Erro ao atualizar quantidade. Tente novamente.");
+  }
+};
+
+const decrementQuantity = async (id: number) => {
+  const product = cart.find((p) => p.id === id);
+  if (!product || product.quantity <= 1) return;
+  const newQuantity = product.quantity - 1;
+
+  try {
+    await api.put(`/cart/${id}`, { quantity: newQuantity });
+    setCart((prevCart) =>
+      prevCart.map((p) =>
+        p.id === id ? { ...p, quantity: newQuantity } : p
+      )
+    );
+  } catch {
+    alert("Erro ao atualizar quantidade. Tente novamente.");
+  }
+};
 
   const getCartTotal = () => {
     return cart
