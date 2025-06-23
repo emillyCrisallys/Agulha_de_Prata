@@ -94,7 +94,9 @@ const Home: React.FC = () => {
     <main>
       <nav>
         <div className="logo">
-          <img src={logo} alt="Logo" />
+          <a href="/Home">
+            <img src={logo} alt="Logo" />
+          </a>
         </div>
         <div className="nav-links">
           <a href="/Home">Home</a>

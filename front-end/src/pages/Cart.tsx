@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import "../styles/Cart.css";
 import logo from "../img/Logo_site.png";
@@ -24,6 +24,7 @@ interface CartReturn {
 const Cart: React.FC = () => {
   const [cart, setCart] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -118,7 +119,9 @@ const decrementQuantity = async (id: number) => {
     <div className="cart">
       <nav>
         <div className="logo">
-          <img src={logo} alt="Logo" />
+          <a href="/Home">
+            <img src={logo} alt="Logo" />
+          </a>
         </div>
         <div className="nav-links">
           <a href="/Home">Home</a>
@@ -172,14 +175,23 @@ const decrementQuantity = async (id: number) => {
                     Remover
                   </button>
                 </div>
-
+                
                 <p> {product.quantity}.Unid</p>
                 <p>R${Number(product.price).toFixed(2)}</p>
               </div>
             </div>
           ))}
+          
+          <div className="cart-footer">
+            <button
+              className="finalizar-button"
+              onClick={() => navigate("/Compra")}
+          >
+            Finalizar
+          </button>
           <div className="total">
-            <h3>Total: R${getCartTotal()}</h3>
+              <h3>Total: R${getCartTotal()}</h3>
+          </div>
           </div>
         </div>
       )}

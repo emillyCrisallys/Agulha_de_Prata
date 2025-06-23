@@ -147,9 +147,33 @@
   font-weight: bold;
 }
 
-/* Área do total */
+
+/* Cart.css */
+.finalizar-button {
+  background: #cc8105;
+  color: #f8f3f3;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.finalizar-button:hover {
+  background: #b07f47;
+}
+
+.cart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+  gap: 16px;
+}
+
 .total {
-  margin-top: 20px;
+  margin-top: 0;
   text-align: right;
   font-weight: bold;
   color: #f8f3f3;
