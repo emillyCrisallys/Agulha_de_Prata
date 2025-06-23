@@ -161,3 +161,17 @@ export const removeFromCart = async (
     res.status(500).json({ error: "Erro interno no servidor", details: error });
   }
 };
+
+
+
+export const removeAllFromCart = async (
+    req: Request<{ userId: string }>,
+    res: Response
+) => {
+  const { userId } = req.params;
+  const deleted = await CartModel.destroy({ where: { userId } });
+  if (deleted === 0) {
+    return res.status(404).json({ message: "Item não encontrado no carrinho.", error: "Item não encontrado no carrinho." });
+  }
+  res.status(200).json({ message: "Carrinho limpo com sucesso." });
+};
