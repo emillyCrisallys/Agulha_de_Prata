@@ -94,58 +94,41 @@ export const createUser = async (
 } 
 
 export const updateUser = async (
-    req: Request <{ id: string }>,
-    res: Response) => {
+    req: Request<{ id: string }>,
+    res: Response
+) => {
+    try {
+        const { name, password } = req.body;
+        const loggedUser = req.user; // <-- Corrigido aqui!
 
-        try{
-
-            const { name, email, document, password } = req.body  
-            const loggedUser = req.body.user
-
-            // Check if the user already exists
-            if (!name?.trim() || !email?.trim() || !document?.trim() || !password?.trim()) {
-                return res.status(400)
-                    .json({ error: 'Todos os campos são obrigatórios.' });
-            }
-
-            // Validação do e-mail
-            if (!isValidEmail(email)) {
-                return res.status(400).json({ error: 'E-mail inválido.' });
-            }
-
-            // Validação do CPF
-            if (!isValidCPF(document)) {
-                return res.status(400).json({ error: 'CPF inválido.' });
-            }
-
-
-            const user  = await UserModel.findByPk(req.params.id)
-
-            if (!user) {
-                return res.status(404)
-                    .json({ error: 'Usuário não encontrado.' });
-            }
-
-            
-            user.name = name
-            user.email = email
-            user.document = document
-            user.password = password
-            user.updatedBy = loggedUser.user.id
-            
-            
-
-            await user.save()
-
-            res.status(201).json(user)
-    
-        } catch(error){
-            res.status(500).json('Erro interno no servidor ' + error )
-
+        if ((!name || !name.trim()) && (!password || !password.trim())) {
+            return res.status(400)
+                .json({ error: 'Informe pelo menos nome ou senha para atualizar.' });
         }
-    
-              
-} 
+
+        const user = await UserModel.findByPk(req.params.id);
+
+        if (!user) {
+            return res.status(404)
+                .json({ error: 'Usuário não encontrado.' });
+        }
+
+        // Só o proprietário do perfil pode atualizar
+        if (user.id !== loggedUser?.id) {
+            return res.status(403)
+                .json({ error: 'Acesso negado. Você não pode atualizar este perfil.' });
+        }
+
+        if (name) user.name = name;
+        if (password) user.password = password;
+
+        await user.save();
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json('Erro interno no servidor ' + error);
+    }
+};
 
 export const destroyUserById = async (
     req: Request<{ id: string }>,
