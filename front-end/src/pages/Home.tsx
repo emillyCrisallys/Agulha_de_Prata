@@ -99,7 +99,7 @@ const Home: React.FC = () => {
         <div className="nav-links">
           <a href="/Home">Home</a>
           <a href="/Contact">Contato</a>
-          <a href="/User Perfil">Perfil</a>
+          <a href="/UserPerfil">Perfil</a>
           <a href="/Cart">
             <img
               src="/src/img/carrinho.png"

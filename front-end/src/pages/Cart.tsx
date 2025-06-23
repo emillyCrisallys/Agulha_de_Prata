@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+
 import api from "../utils/api";
 import "../styles/Cart.css";
+import logo from "../img/Logo_site.png";
 
 interface Product {
   id: number;
@@ -101,10 +102,23 @@ const Cart: React.FC = () => {
 
   return (
     <div className="cart">
-      {/* Seta para voltar */}
-      <Link to="/home" className="back-home">
-        <FaArrowLeft /> Voltar para Home{" "}
-      </Link>
+      <nav>
+        <div className="logo">
+          <img src={logo} alt="Logo" />
+        </div>
+        <div className="nav-links">
+          <a href="/Home">Home</a>
+          <a href="/Contact">Contato</a>
+          <a href="/UserPerfil">Perfil</a>
+          <a href="/Cart">
+            <img
+              src="/src/img/carrinho.png"
+              alt="Carrinho"
+              className="cart-icon"
+            />
+          </a>
+        </div>
+      </nav>
 
       <h1>Carrinho de Compras</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}

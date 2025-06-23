@@ -1,6 +1,4 @@
 
-/* src/styles/HomeLay.css */
-
 * {
   margin: 0;
   padding: 0;
@@ -32,6 +30,14 @@ nav {
   z-index: 1000; 
 }
 
+.cart-icon {
+  width: 32px;
+  height: 32px;
+  margin-top: -8px;    
+  margin-left: -8px;   
+  vertical-align: middle;
+  cursor: pointer;
+}
 .logo img {
   height: 80px; 
 }
